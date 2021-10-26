@@ -68,9 +68,6 @@ export default {
     roboCoin() {
       return this.$store.getters.ROBOCOIN;
     },
-
-  },
-  created() {
   },
 }
 </script>

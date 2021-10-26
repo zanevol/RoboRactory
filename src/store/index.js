@@ -42,7 +42,7 @@ export default new Vuex.Store({
                 id: 3,                                                                                                  // ключ первой детали
                 img: require('../assets/soul.svg'),                                                                     // картинка детали
                 title: 'Душа',                                                                                          // название детали
-                message_title: ['души', 'и', ',ще'],
+                message_title: ['души', 'душа', 'душ'],
                 cost: 25,                                                                                               // цена покупки детали
                 price: 15,                                                                                              // цена продажи детали
                 count: 0,                                                                                               // клочество купленных деталей
@@ -58,36 +58,75 @@ export default new Vuex.Store({
     },
 
     actions: {
+        /**
+         *  Изменению количества монет
+         * @param commit
+         * @param checked
+         */
         setAddRoboCoin({commit}, checked) {
             commit('addRoboCoin', checked);
         },
 
+        /**
+         * Добавление деталей на склад
+         * @param commit
+         * @param data
+         */
         setAddToStorage({commit}, data) {
             commit('addToStorage', data);
         },
 
+        /**
+         * Удаленю деталей со склада
+         * @param commit
+         * @param card
+         */
         setSellComponent({commit}, card) {
             commit('sellComponent', card);
         },
 
+        /**
+         * Установление активного окна
+         * @param commit
+         * @param activeModalName
+         */
         setActiveModal({commit}, activeModalName) {
             commit('SETACTIVEMODAL', activeModalName);
         },
 
+        /**
+         * Производство робота
+         * @param commit
+         */
         buildRobot({commit}) {
             commit('buildRobot');
         },
 
+        /**
+         * Изменение картинки робота
+         * @param commit
+         */
         changeRobotImage({commit}) {
             commit('changeRobotImage');
         }
 
     },
     mutations: {
+        /**
+         * Мутация изменение активного окна
+         * @param state
+         * @param activeModalName
+         * @constructor
+         */
         SETACTIVEMODAL(state, activeModalName) {
             state.activeModal = activeModalName;
         },
 
+        /**
+         * Мутация по добавлению монет
+         * @param state
+         * @param checked
+         */
         addRoboCoin(state, checked) {
             if (state.roboCoin >= 100) {
                 state.activeModal = 'modal';
@@ -100,18 +139,32 @@ export default new Vuex.Store({
             }
         },
 
+        /**
+         * Мутация по добавлению деталей на склад
+         * @param state
+         * @param data
+         */
         addToStorage(state, data) {
             data.count++;
             state.roboCoin -= data.cost;
             data.status = data.count === data.max_count;
         },
 
+        /**
+         * Мутация по удалению деталей со склада
+         * @param state
+         * @param data
+         */
         sellComponent(state, data) {
             data.count--;
             state.roboCoin += data.price;
             data.status = data.count === data.max_count;
         },
 
+        /**
+         * Мутация по производству робота
+         * @param state
+         */
         buildRobot(state) {
             state.roboCoin -= 10;
             for (let componentId in state.roboComponents) {
@@ -124,6 +177,10 @@ export default new Vuex.Store({
             state.activeModal = 'win-modal';
         },
 
+        /**
+         * Мутация по смене картинки робота
+         * @param state
+         */
         changeRobotImage(state) {
             state.robotRedy = true;
         }

@@ -30,6 +30,10 @@ export default {
     return {}
   },
   methods: {
+    /**
+     * Метод добавления деталей на склад
+     * @param data
+     */
     addToStorage(data) {
       this.$store.dispatch('setAddToStorage', data);
     },

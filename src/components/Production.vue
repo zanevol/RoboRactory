@@ -81,7 +81,6 @@
             </div>
           </div>
 
-
         </div>
 
         <div class="production-block-components-text">
@@ -104,12 +103,17 @@ export default {
   name: "Production",
   data() {
     return {
-      type: 'frontEnd',
-      gender: 'male',
-      message: '',
+      type: 'frontEnd',                                                                                                 // тип робота
+      gender: 'male',                                                                                                   // пол робота
+      message: '',                                                                                                      // сообщение
     }
   },
   methods: {
+    /**
+     * Метод смены статуса у детали
+     * @param component
+     * @param id
+     */
     changeStatus(component, id) {
       if (id <= component.count) {
         if (!component.activated_button[id]) {
@@ -120,6 +124,12 @@ export default {
       }
     },
 
+    /**
+     * Метод смены картинки деталей
+     * @param component
+     * @param item
+     * @returns {*}
+     */
     getImgSrc(component, item) {
       let url = '';
       if (item <= component.count) {
@@ -134,6 +144,9 @@ export default {
       return url;
     },
 
+    /**
+     * Метод производства робота
+     */
     buildRobot() {
       this.$store.dispatch('buildRobot');
     },
@@ -150,26 +163,27 @@ export default {
 
   },
   computed: {
-
+    /**
+     * Метод по составлению сообщения
+     * @returns {string}
+     */
     getMessage() {
       let message = '';
       // let flag = false;
       if (this.roboCoin < 10) {
         message = 'Не хватает монет для производства робота.';
       } else {
-        // let componentsFlag = false;
         // eslint-disable-next-line no-unused-vars
         let componentsCountDisabled = 0; // кол-во откл кнопок всего
         let totalComponentCount = 0; // общее кол-во кнопок
         let disabledItemCount = 0; // кол-во откл кнопок в компоненте
         // eslint-disable-next-line no-unused-vars
         let componentsCountActive = 0;
-        message = 'Не хватает ';
+        message = 'Не хватает  ';
         for (let componentId in this.components) {
           let activeItemCount = 0; // сколько включено в компоненте
           let component = this.components[componentId];
           if (Object.keys(component.activated_button).length) {
-
             for (let itemIdx in component.activated_button) {
               let item = component.activated_button[itemIdx];
               if (item === false) {
@@ -178,36 +192,33 @@ export default {
                 activeItemCount++;
               }
             }
-
             componentsCountActive += activeItemCount;
-
             if (activeItemCount !== component.max_count) {
-              message = message + ' ' + (component.max_count - activeItemCount) + ' ' + this.coinCount(component.message_title, component.max_count - activeItemCount);
+              message = message + '  ' + (component.max_count - activeItemCount) + '  ' + this.coinCount(component.message_title, component.max_count - activeItemCount);
             }
-
             componentsCountDisabled += disabledItemCount;
             totalComponentCount += component.max_count;
           } else {
             totalComponentCount += component.max_count;
             disabledItemCount += component.max_count;
-            message = message + ' ' + component.max_count + ' ' + this.coinCount(component.message_title, component.max_count);
+            message = message + ' и ' + component.max_count + '  ' + this.coinCount(component.message_title, component.max_count);
           }
         }
-
-
         if (disabledItemCount === totalComponentCount) {
           message = 'Не хватает биомеханизмов, процессоров и души';
         }
-
         if (componentsCountActive === totalComponentCount) {
           this.$store.dispatch('changeRobotImage');
-
           message = '';
         }
       }
       return message;
     },
 
+    /**
+     * Метод смены картинки робота
+     * @returns {{}}
+     */
     robotType() {
       let typeRobot = {};
       //

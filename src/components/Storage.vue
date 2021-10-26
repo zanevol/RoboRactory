@@ -35,6 +35,10 @@ export default {
     return {}
   },
   methods: {
+    /**
+     * Метод продажи деталей со склада
+     * @param data
+     */
     sellComponent(data) {
       if (this.roboCoin < 100) {
         this.$store.dispatch('setSellComponent', data);
