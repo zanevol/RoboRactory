@@ -8,7 +8,6 @@
            v-for="card in storageCards"
            :key="card.id"
       >
-
         <div class="storage-block-item-info">
           <span class="storage-block-item-info-title">{{ card.title }}</span>
           <span class="storage-block-item-info-subtitle">Стоимость: {{ card.price }} монет</span>
